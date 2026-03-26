@@ -1,0 +1,9 @@
+.tag {
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    font-family: var(--font-mono);
+    font-size: 0.6875em;
+    font-weight: 400;
+    padding: 3px 8px;
+    border-radius: 3px;
+}

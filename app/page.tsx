@@ -10,7 +10,7 @@ import ProjectsCarousel from '@/components/ProjectsCarousel';
 import type { Project } from '@/components/ProjectsCarousel';
 
 // ─── Resume Data ──────────────────────────────────────────────────────────────
-// Edit these inline constants to update the portfolio content.
+// Edit these constants to update portfolio content.
 
 const experience: ExperienceEntry[] = [
   {
@@ -71,8 +71,8 @@ const projects: Project[] = [
     meta: '2022 · github.com/you/tool',
     href: '#',
     description: {
-      en: 'Add a description for this project. Replace the placeholder thumbnail with a real screenshot or cover image.',
-      pt: 'Adicione uma descrição para este projeto. Substitua a miniatura pelo print ou imagem real.',
+      en: 'Add a description for this project. Replace the placeholder thumbnail with a real screenshot.',
+      pt: 'Adicione uma descrição para este projeto. Substitua a miniatura pelo print real.',
     },
   },
   {
@@ -81,7 +81,7 @@ const projects: Project[] = [
     href: '#',
     description: {
       en: 'Exploratory project or experiment. Describe the idea, the tech stack, and anything interesting that came out of it.',
-      pt: 'Projeto exploratório ou experimento. Descreva a ideia, o stack e o que de interessante surgiu.',
+      pt: 'Projeto exploratório. Descreva a ideia, o stack e o que de interessante surgiu.',
     },
   },
 ];
@@ -93,24 +93,24 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<Tab>('resume');
   const [navOpen, setNavOpen] = useState(false);
 
-  function openNav() { setNavOpen(true); }
-  function closeNav() { setNavOpen(false); }
-  function toggleNav() { setNavOpen((o: boolean) => !o); }
-
   return (
     <div>
       <SidebarNav
         activeTab={activeTab}
-        setActiveTab={(tab) => { setActiveTab(tab); }}
+        setActiveTab={setActiveTab}
         isOpen={navOpen}
-        onClose={closeNav}
+        onClose={() => setNavOpen(false)}
       />
 
       <div
-        className={`page-shift max-w-[900px] mx-auto px-5 pt-8 pb-[60px] sm:px-8 sm:pt-10 sm:pb-20 ${navOpen ? 'nav-open' : ''}`}
+        className={`page-shift ${navOpen ? 'nav-open' : ''}`}
+        style={{
+          maxWidth: 900,
+          margin: '0 auto',
+          padding: '40px 32px 80px',
+        }}
       >
-        <Topbar onToggleNav={toggleNav} navOpen={navOpen} />
-
+        <Topbar onToggleNav={() => setNavOpen((o: boolean) => !o)} navOpen={navOpen} />
         <Hero
           name={{ en: 'Your Name', pt: 'Seu Nome' }}
           email="you@example.com"
@@ -120,18 +120,13 @@ export default function Home() {
           location={{ en: 'Location, Country', pt: 'Cidade, País' }}
           summary={{
             en: "Short professional summary goes here. Mention your main skills, years of experience, and what kind of work you're interested in. Keep it to two or three sentences.",
-            pt: 'Resumo profissional curto aqui. Mencione suas principais habilidades, anos de experiência e o tipo de trabalho que lhe interessa. Mantenha em duas ou três frases.',
+            pt: 'Resumo profissional curto aqui. Mencione suas principais habilidades, anos de experiência e o tipo de trabalho que lhe interessa.',
           }}
         />
 
         {activeTab === 'resume' && (
-          <ResumeTab
-            experience={experience}
-            skills={skills}
-            education={education}
-          />
+          <ResumeTab experience={experience} skills={skills} education={education} />
         )}
-
         {activeTab === 'projects' && (
           <ProjectsCarousel projects={projects} />
         )}

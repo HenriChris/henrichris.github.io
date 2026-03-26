@@ -1,47 +1,33 @@
-@import "tailwindcss";
-
-/* ─── Design Tokens ─────────────────────────────────────────── */
-@theme inline {
-  /* Colors — light (overridden in .dark) */
-  --color-bg:        var(--bg);
-  --color-surface:   var(--surface);
-  --color-border:    var(--border);
-  --color-text:      var(--text);
-  --color-muted:     var(--muted);
-  --color-tag-bg:    var(--tag-bg);
-  --color-tag-text:  var(--tag-text);
-
-  /* Fonts */
-  --font-sans:  var(--font-figtree), sans-serif;
-  --font-mono:  var(--font-dm-mono), monospace;
+/* ─── CSS Variables ──────────────────────────────────────────────────────── */
+:root {
+  --bg: #f8f7f4;
+  --surface: #ffffff;
+  --border: #e4e2dd;
+  --text: #1a1917;
+  --muted: #7a776e;
+  --tag-bg: #eeecea;
+  --tag-text: #4a4844;
+  --nav-w: 220px;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --font-sans: var(--font-figtree), sans-serif;
+  --font-mono: var(--font-dm-mono), monospace;
   --font-serif: var(--font-instrument-serif), serif;
 }
 
-/* ─── CSS Variables ──────────────────────────────────────────── */
-:root {
-  --bg:       #f8f7f4;
-  --surface:  #ffffff;
-  --border:   #e4e2dd;
-  --text:     #1a1917;
-  --muted:    #7a776e;
-  --tag-bg:   #eeecea;
-  --tag-text: #4a4844;
-  --nav-w:    220px;
-  --ease:     cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 .dark {
-  --bg:       #131211;
-  --surface:  #1c1b19;
-  --border:   #2d2b27;
-  --text:     #e8e5df;
-  --muted:    #7a776e;
-  --tag-bg:   #242320;
+  --bg: #131211;
+  --surface: #1c1b19;
+  --border: #2d2b27;
+  --text: #e8e5df;
+  --muted: #7a776e;
+  --tag-bg: #242320;
   --tag-text: #a8a49d;
 }
 
-/* ─── Base Reset ─────────────────────────────────────────────── */
-*, *::before, *::after {
+/* ─── Base Reset ─────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -62,7 +48,7 @@ body {
   transition: background 0.25s, color 0.25s;
 }
 
-/* ─── Sidebar (transition too complex for Tailwind) ──────────── */
+/* ─── Sidebar Nav ────────────────────────────────────────────────────────── */
 .sidebar-nav {
   position: fixed;
   inset: 0 auto 0 0;
@@ -82,9 +68,9 @@ body {
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.06);
 }
 
-/* Page shift on nav open */
+/* ─── Page shift on nav open ─────────────────────────────────────────────── */
 .page-shift {
-  transition: margin-left 0.32s var(--ease), padding-left 0.32s var(--ease);
+  transition: margin-left 0.32s var(--ease);
 }
 
 @media (min-width: 641px) {
@@ -93,7 +79,7 @@ body {
   }
 }
 
-/* ─── Accordion (grid-row collapse) ─────────────────────────── */
+/* ─── Accordion grid-row collapse ────────────────────────────────────────── */
 .accordion-body {
   display: grid;
   grid-template-rows: 0fr;
@@ -109,7 +95,7 @@ body {
   overflow: hidden;
 }
 
-/* ─── Carousel Track ─────────────────────────────────────────── */
+/* ─── Carousel track ─────────────────────────────────────────────────────── */
 .carousel-track {
   display: flex;
   gap: 20px;
@@ -117,7 +103,7 @@ body {
   will-change: transform;
 }
 
-/* ─── Switch Thumb ───────────────────────────────────────────── */
+/* ─── Theme switch thumb ─────────────────────────────────────────────────── */
 .switch-thumb {
   position: absolute;
   top: 3px;
@@ -136,7 +122,7 @@ body {
   background: var(--text);
 }
 
-/* ─── Hamburger Lines ────────────────────────────────────────── */
+/* ─── Hamburger lines ────────────────────────────────────────────────────── */
 .hamburger-line {
   width: 15px;
   height: 1.5px;
@@ -149,18 +135,27 @@ body {
 .hamburger.open .hamburger-line:nth-child(1) {
   transform: translateY(6.5px) rotate(45deg);
 }
+
 .hamburger.open .hamburger-line:nth-child(2) {
   opacity: 0;
   width: 0;
 }
+
 .hamburger.open .hamburger-line:nth-child(3) {
   transform: translateY(-6.5px) rotate(-45deg);
 }
 
-/* ─── Animations ─────────────────────────────────────────────── */
+/* ─── Animations ─────────────────────────────────────────────────────────── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-up {
@@ -171,7 +166,7 @@ body {
   animation: fadeUp 0.35s ease both;
 }
 
-/* ─── Lang select (custom arrow) ─────────────────────────────── */
+/* ─── Language select (custom arrow) ────────────────────────────────────── */
 .lang-select {
   appearance: none;
   -webkit-appearance: none;

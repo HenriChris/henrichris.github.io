@@ -1,0 +1,118 @@
+.wrap {
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.35s ease both;
+}
+
+/* ─── Entry (experience) ─────────────────────────────────────── */
+.entry {
+    margin-bottom: 28px;
+}
+
+.entry:last-child {
+    margin-bottom: 0;
+}
+
+.entryHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 2px;
+}
+
+.entryTitle {
+    font-weight: 600;
+    font-size: 0.875em;
+    color: var(--text);
+}
+
+.entryDate {
+    font-family: var(--font-mono);
+    font-size: 0.6875em;
+    font-weight: 300;
+    color: var(--muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.entrySub {
+    font-size: 0.8125em;
+    color: var(--muted);
+    font-weight: 400;
+    margin-bottom: 8px;
+}
+
+.entryList {
+    list-style: none;
+    padding: 0;
+}
+
+.entryList li {
+    font-size: 0.84375em;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.65;
+    padding-left: 14px;
+    position: relative;
+    margin-bottom: 4px;
+}
+
+.entryList li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+}
+
+/* ─── Skills ─────────────────────────────────────────────────── */
+.skillGroup {
+    margin-bottom: 16px;
+}
+
+.skillGroup:last-child {
+    margin-bottom: 0;
+}
+
+.skillGroupName {
+    font-size: 0.75em;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 6px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+/* ─── Education ──────────────────────────────────────────────── */
+.eduEntry {
+    margin-bottom: 18px;
+}
+
+.eduEntry:last-child {
+    margin-bottom: 0;
+}
+
+.eduTitle {
+    font-weight: 500;
+    font-size: 0.8125em;
+    color: var(--text);
+}
+
+.eduSub {
+    font-size: 0.75em;
+    color: var(--muted);
+    font-weight: 300;
+    margin-top: 2px;
+}
+
+.eduDate {
+    font-family: var(--font-mono);
+    font-size: 0.6875em;
+    font-weight: 300;
+    color: var(--muted);
+    margin-top: 2px;
+}

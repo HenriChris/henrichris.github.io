@@ -1,0 +1,55 @@
+.item {
+    border-bottom: 1px solid var(--border);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    cursor: pointer;
+    user-select: none;
+    background: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+}
+
+.label {
+    font-family: var(--font-mono);
+    font-size: 0.625em;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 0.15s;
+}
+
+.header:hover .label {
+    color: var(--text);
+}
+
+.labelOpen {
+    color: var(--text);
+}
+
+.chevron {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    color: var(--muted);
+    transition: transform 0.28s var(--ease), color 0.15s;
+}
+
+.header:hover .chevron {
+    color: var(--text);
+}
+
+.chevronOpen {
+    transform: rotate(180deg);
+    color: var(--text);
+}
+
+.content {
+    padding-bottom: 28px;
+}

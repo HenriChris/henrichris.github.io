@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useLang } from '@/context/LangContext';
 import type { Translations } from '@/context/LangContext';
+import styles from './ProjectsCarousel.module.css';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 export interface Project {
@@ -10,7 +11,6 @@ export interface Project {
     meta: string;
     description: Translations;
     href: string;
-    /** Optional SVG string rendered as the card thumbnail background */
     thumbSvg?: React.ReactNode;
 }
 
@@ -18,7 +18,7 @@ interface Props {
     projects: Project[];
 }
 
-// ─── Default SVG Thumbs ───────────────────────────────────────────────────────
+// ─── Default SVG thumbnails ───────────────────────────────────────────────────
 const DefaultThumbs: React.ReactNode[] = [
     <svg key="t1" viewBox="0 0 480 158" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
         <defs><linearGradient id="cg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#e8e5e0" /><stop offset="100%" stopColor="#d0ccc5" /></linearGradient></defs>
@@ -55,7 +55,7 @@ export default function ProjectsCarousel({ projects }: Props) {
         const pv = perView();
         const vw = viewportRef.current.offsetWidth;
         setCardWidth((vw - GAP * (pv - 1)) / pv);
-        setIdx((prev) => Math.min(prev, Math.max(0, projects.length - pv)));
+        setIdx((prev: number) => Math.min(prev, Math.max(0, projects.length - pv)));
     }, [projects.length]);
 
     useEffect(() => {
@@ -72,68 +72,49 @@ export default function ProjectsCarousel({ projects }: Props) {
     }, [idx, cardWidth]);
 
     const goTo = (i: number) => setIdx(Math.max(0, Math.min(i, maxIdx)));
-
     const dots = Array.from({ length: maxIdx + 1 });
 
     return (
-        <div className="animate-fade-up-fast">
-            <div ref={viewportRef} className="overflow-hidden rounded-sm">
+        <div className={styles.wrap}>
+            <div ref={viewportRef} className={styles.viewport}>
                 <div ref={trackRef} className="carousel-track">
                     {projects.map((project, i) => (
                         <a
                             key={i}
                             href={project.href}
                             style={{ width: cardWidth > 0 ? cardWidth : undefined }}
-                            className="shrink-0 bg-surface border border-border rounded-[7px] overflow-hidden no-underline text-inherit block transition-[border-color,transform,box-shadow] duration-200 hover:border-muted hover:-translate-y-[3px] hover:shadow-[0_8px_24px_rgba(0,0,0,0.07)] dark:hover:shadow-[0_8px_24px_rgba(0,0,0,0.3)]"
+                            className={styles.card}
                         >
-                            <div className="h-[158px] overflow-hidden relative">
+                            <div className={styles.cardThumb}>
                                 {project.thumbSvg ?? DefaultThumbs[i % DefaultThumbs.length]}
                             </div>
-                            <div className="px-[18px] py-4 pb-5">
-                                <div className="font-semibold text-[0.875rem] text-text mb-[3px]">{project.title}</div>
-                                <div className="font-mono text-[0.625rem] font-light text-muted tracking-[0.04em] mb-[9px]">
-                                    {project.meta}
-                                </div>
-                                <div className="text-[0.8125rem] text-muted font-light leading-[1.65]">
-                                    {t(project.description)}
-                                </div>
+                            <div className={styles.cardBody}>
+                                <div className={styles.cardTitle}>{project.title}</div>
+                                <div className={styles.cardMeta}>{project.meta}</div>
+                                <div className={styles.cardDesc}>{t(project.description)}</div>
                             </div>
                         </a>
                     ))}
                 </div>
             </div>
 
-            {/* Nav */}
-            <div className="flex items-center gap-3 mt-[18px]">
-                <button
-                    onClick={() => goTo(idx - 1)}
-                    disabled={idx === 0}
-                    aria-label="Previous"
-                    className="w-[30px] h-[30px] bg-transparent border border-border rounded shrink-0 flex items-center justify-center text-muted transition-[color,border-color] duration-150 enabled:hover:text-text enabled:hover:border-muted disabled:opacity-[0.28] disabled:cursor-default cursor-pointer"
-                >
+            <div className={styles.nav}>
+                <button onClick={() => goTo(idx - 1)} disabled={idx === 0} aria-label="Previous" className={styles.btn}>
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                         <path d="M6 2L3 5l3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </button>
-
-                <div className="flex items-center gap-1.5">
+                <div className={styles.dots}>
                     {dots.map((_, i) => (
                         <button
                             key={i}
                             onClick={() => goTo(i)}
                             aria-label={`Go to slide ${i + 1}`}
-                            className={`w-[5px] h-[5px] rounded-full transition-[background,transform] duration-200 cursor-pointer border-none p-0 ${i === idx ? 'bg-muted scale-[1.3]' : 'bg-border'
-                                }`}
+                            className={`${styles.dot} ${i === idx ? styles.dotActive : ''}`}
                         />
                     ))}
                 </div>
-
-                <button
-                    onClick={() => goTo(idx + 1)}
-                    disabled={idx >= maxIdx}
-                    aria-label="Next"
-                    className="w-[30px] h-[30px] bg-transparent border border-border rounded shrink-0 flex items-center justify-center text-muted transition-[color,border-color] duration-150 enabled:hover:text-text enabled:hover:border-muted disabled:opacity-[0.28] disabled:cursor-default cursor-pointer"
-                >
+                <button onClick={() => goTo(idx + 1)} disabled={idx >= maxIdx} aria-label="Next" className={styles.btn}>
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                         <path d="M4 2l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useLang } from '@/context/LangContext';
 import type { Translations } from '@/context/LangContext';
+import styles from './Accordion.module.css';
 
 interface Props {
     label: Translations;
@@ -10,8 +11,8 @@ interface Props {
     children: React.ReactNode;
 }
 
-const ChevronIcon = () => (
-    <svg className="w-3 h-3 shrink-0 transition-[transform,color] duration-[280ms]" viewBox="0 0 12 12" fill="none">
+const ChevronIcon = ({ className }: { className: string }) => (
+    <svg className={className} viewBox="0 0 12 12" fill="none">
         <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
@@ -21,25 +22,20 @@ export default function Accordion({ label, defaultOpen = true, children }: Props
     const { t } = useLang();
 
     return (
-        <div className="border-b border-border">
+        <div className={styles.item}>
             <button
                 onClick={() => setOpen((o) => !o)}
                 aria-expanded={open}
-                className="flex justify-between items-center w-full py-[15px] text-left cursor-pointer select-none bg-transparent border-none group"
+                className={styles.header}
             >
-                <span
-                    className={`font-mono text-[0.625rem] font-medium tracking-[0.14em] uppercase transition-colors duration-150 ${open ? 'text-text' : 'text-muted group-hover:text-text'
-                        }`}
-                >
+                <span className={`${styles.label} ${open ? styles.labelOpen : ''}`}>
                     {t(label)}
                 </span>
-                <span className={`transition-[transform] duration-[280ms] ${open ? 'rotate-180 text-text' : 'text-muted group-hover:text-text'}`}>
-                    <ChevronIcon />
-                </span>
+                <ChevronIcon className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`} />
             </button>
             <div className={`accordion-body ${open ? 'open' : ''}`}>
                 <div className="accordion-inner">
-                    <div className="pb-7">{children}</div>
+                    <div className={styles.content}>{children}</div>
                 </div>
             </div>
         </div>
