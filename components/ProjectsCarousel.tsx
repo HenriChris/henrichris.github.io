@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useLang } from '@/context/LangContext';
 import type { Translations } from '@/context/LangContext';
 
@@ -109,7 +109,7 @@ export default function ProjectsCarousel({ projects }: Props) {
                     onClick={() => goTo(idx - 1)}
                     disabled={idx === 0}
                     aria-label="Previous"
-                    className="w-[30px] h-[30px] bg-transparent border border-border rounded shrink-0 flex items-center justify-center text-muted transition-[color,border-color] duration-150 hover:not-disabled:text-text hover:not-disabled:border-muted disabled:opacity-[0.28] disabled:cursor-default cursor-pointer"
+                    className="w-[30px] h-[30px] bg-transparent border border-border rounded shrink-0 flex items-center justify-center text-muted transition-[color,border-color] duration-150 enabled:hover:text-text enabled:hover:border-muted disabled:opacity-[0.28] disabled:cursor-default cursor-pointer"
                 >
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                         <path d="M6 2L3 5l3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -132,7 +132,7 @@ export default function ProjectsCarousel({ projects }: Props) {
                     onClick={() => goTo(idx + 1)}
                     disabled={idx >= maxIdx}
                     aria-label="Next"
-                    className="w-[30px] h-[30px] bg-transparent border border-border rounded shrink-0 flex items-center justify-center text-muted transition-[color,border-color] duration-150 hover:not-disabled:text-text hover:not-disabled:border-muted disabled:opacity-[0.28] disabled:cursor-default cursor-pointer"
+                    className="w-[30px] h-[30px] bg-transparent border border-border rounded shrink-0 flex items-center justify-center text-muted transition-[color,border-color] duration-150 enabled:hover:text-text enabled:hover:border-muted disabled:opacity-[0.28] disabled:cursor-default cursor-pointer"
                 >
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                         <path d="M4 2l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />

@@ -21,7 +21,7 @@ export default function Hero({ name, email, phone, github, linkedin, location, s
             <h1 className="font-serif text-[clamp(38px,6vw,60px)] font-normal leading-[1.05] tracking-[-0.02em] text-text mb-[14px]">
                 {t(name)}
             </h1>
-            <div className="flex flex-wrap gap-5 font-mono text-[0.75rem] font-light text-muted tracking-[0.02em] sm:gap-3">
+            <div className="flex flex-wrap gap-3 font-mono text-[0.75rem] font-light text-muted tracking-[0.02em] sm:gap-5">
                 <span>
                     <a href={`mailto:${email}`} className="text-inherit no-underline hover:text-text transition-colors">
                         {email}

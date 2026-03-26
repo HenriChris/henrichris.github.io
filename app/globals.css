@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ─── Design Tokens ─────────────────────────────────────────── */
-@theme {
+@theme inline {
   /* Colors — light (overridden in .dark) */
   --color-bg:        var(--bg);
   --color-surface:   var(--surface);

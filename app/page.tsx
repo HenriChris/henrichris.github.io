@@ -95,7 +95,7 @@ export default function Home() {
 
   function openNav() { setNavOpen(true); }
   function closeNav() { setNavOpen(false); }
-  function toggleNav() { setNavOpen((o) => !o); }
+  function toggleNav() { setNavOpen((o: boolean) => !o); }
 
   return (
     <div>
@@ -107,7 +107,7 @@ export default function Home() {
       />
 
       <div
-        className={`page-shift max-w-[900px] mx-auto px-8 pt-10 pb-20 sm:px-5 sm:pt-8 sm:pb-16 ${navOpen ? 'nav-open' : ''}`}
+        className={`page-shift max-w-[900px] mx-auto px-5 pt-8 pb-[60px] sm:px-8 sm:pt-10 sm:pb-20 ${navOpen ? 'nav-open' : ''}`}
       >
         <Topbar onToggleNav={toggleNav} navOpen={navOpen} />
 
