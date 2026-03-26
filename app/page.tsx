@@ -1,65 +1,141 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import SidebarNav from '@/components/SidebarNav';
+import Topbar from '@/components/Topbar';
+import Hero from '@/components/Hero';
+import ResumeTab from '@/components/ResumeTab';
+import type { ExperienceEntry, SkillGroup, EducationEntry } from '@/components/ResumeTab';
+import ProjectsCarousel from '@/components/ProjectsCarousel';
+import type { Project } from '@/components/ProjectsCarousel';
+
+// ─── Resume Data ──────────────────────────────────────────────────────────────
+// Edit these inline constants to update the portfolio content.
+
+const experience: ExperienceEntry[] = [
+  {
+    title: 'Software Engineer',
+    date: '2022 – Present',
+    company: 'Company Name',
+    location: { en: 'Remote', pt: 'Remoto' },
+    bullets: [
+      { en: 'Built and maintained scalable backend services handling 10k+ req/s', pt: 'Construí e mantive serviços backend escaláveis com 10k+ req/s' },
+      { en: 'Led migration from monolith to microservices, reducing deploy time by 40%', pt: 'Liderei a migração de monolito para microsserviços, reduzindo o tempo de deploy em 40%' },
+      { en: 'Collaborated with product and design teams in an agile environment', pt: 'Colaborei com equipes de produto e design em um ambiente ágil' },
+    ],
+  },
+  {
+    title: 'Junior Developer',
+    date: '2020 – 2022',
+    company: 'Another Company',
+    location: { en: 'Lisbon, PT', pt: 'Lisboa, PT' },
+    bullets: [
+      { en: 'Developed internal tooling that saved the team ~5 hours per week', pt: 'Desenvolvi ferramentas internas que economizaram ~5 horas semanais para a equipe' },
+      { en: 'Improved test coverage from 30% to 80% across core modules', pt: 'Aumentei a cobertura de testes de 30% para 80% nos módulos principais' },
+    ],
+  },
+];
+
+const skills: SkillGroup[] = [
+  { name: { en: 'Languages', pt: 'Linguagens' }, tags: ['Python', 'TypeScript', 'Go', 'SQL'] },
+  { name: { en: 'Frameworks', pt: 'Frameworks' }, tags: ['React', 'Node.js', 'FastAPI'] },
+  { name: { en: 'Tools', pt: 'Ferramentas' }, tags: ['Docker', 'Git', 'AWS', 'Linux'] },
+];
+
+const education: EducationEntry[] = [
+  { degree: { en: 'B.Sc. Computer Science', pt: 'B.Sc. Ciência da Computação' }, institution: 'University Name', date: '2018 – 2022' },
+  { degree: { en: 'Relevant Certification', pt: 'Certificação Relevante' }, institution: 'Issuing Organization', date: '2023' },
+];
+
+const projects: Project[] = [
+  {
+    title: 'Project Name',
+    meta: '2024 · github.com/you/project',
+    href: '#',
+    description: {
+      en: 'Brief description of what it does and the technologies used. Notable achievement, metric, or reception.',
+      pt: 'Breve descrição do que faz e as tecnologias utilizadas. Conquista notável, métrica ou recepção.',
+    },
+  },
+  {
+    title: 'Another Project',
+    meta: '2023 · Side project',
+    href: '#',
+    description: {
+      en: 'What problem it solves and how. Built with modern tooling and shipped to production with great results.',
+      pt: 'Que problema resolve e como. Construído com ferramentas modernas e implantado em produção com ótimos resultados.',
+    },
+  },
+  {
+    title: 'Open Source Tool',
+    meta: '2022 · github.com/you/tool',
+    href: '#',
+    description: {
+      en: 'Add a description for this project. Replace the placeholder thumbnail with a real screenshot or cover image.',
+      pt: 'Adicione uma descrição para este projeto. Substitua a miniatura pelo print ou imagem real.',
+    },
+  },
+  {
+    title: 'Experiment / Lab',
+    meta: '2021 · Personal',
+    href: '#',
+    description: {
+      en: 'Exploratory project or experiment. Describe the idea, the tech stack, and anything interesting that came out of it.',
+      pt: 'Projeto exploratório ou experimento. Descreva a ideia, o stack e o que de interessante surgiu.',
+    },
+  },
+];
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
+type Tab = 'resume' | 'projects';
 
 export default function Home() {
+  const [activeTab, setActiveTab] = useState<Tab>('resume');
+  const [navOpen, setNavOpen] = useState(false);
+
+  function openNav() { setNavOpen(true); }
+  function closeNav() { setNavOpen(false); }
+  function toggleNav() { setNavOpen((o) => !o); }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div>
+      <SidebarNav
+        activeTab={activeTab}
+        setActiveTab={(tab) => { setActiveTab(tab); }}
+        isOpen={navOpen}
+        onClose={closeNav}
+      />
+
+      <div
+        className={`page-shift max-w-[900px] mx-auto px-8 pt-10 pb-20 sm:px-5 sm:pt-8 sm:pb-16 ${navOpen ? 'nav-open' : ''}`}
+      >
+        <Topbar onToggleNav={toggleNav} navOpen={navOpen} />
+
+        <Hero
+          name={{ en: 'Your Name', pt: 'Seu Nome' }}
+          email="you@example.com"
+          phone="+00 000 000 000"
+          github={{ label: 'github.com/yourhandle', href: 'https://github.com/yourhandle' }}
+          linkedin={{ label: 'linkedin.com/in/yourhandle', href: 'https://linkedin.com/in/yourhandle' }}
+          location={{ en: 'Location, Country', pt: 'Cidade, País' }}
+          summary={{
+            en: "Short professional summary goes here. Mention your main skills, years of experience, and what kind of work you're interested in. Keep it to two or three sentences.",
+            pt: 'Resumo profissional curto aqui. Mencione suas principais habilidades, anos de experiência e o tipo de trabalho que lhe interessa. Mantenha em duas ou três frases.',
+          }}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+
+        {activeTab === 'resume' && (
+          <ResumeTab
+            experience={experience}
+            skills={skills}
+            education={education}
+          />
+        )}
+
+        {activeTab === 'projects' && (
+          <ProjectsCarousel projects={projects} />
+        )}
+      </div>
     </div>
   );
 }

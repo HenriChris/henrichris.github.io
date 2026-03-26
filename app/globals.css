@@ -1,26 +1,187 @@
 @import "tailwindcss";
 
+/* ─── Design Tokens ─────────────────────────────────────────── */
+@theme {
+  /* Colors — light (overridden in .dark) */
+  --color-bg:        var(--bg);
+  --color-surface:   var(--surface);
+  --color-border:    var(--border);
+  --color-text:      var(--text);
+  --color-muted:     var(--muted);
+  --color-tag-bg:    var(--tag-bg);
+  --color-tag-text:  var(--tag-text);
+
+  /* Fonts */
+  --font-sans:  var(--font-figtree), sans-serif;
+  --font-mono:  var(--font-dm-mono), monospace;
+  --font-serif: var(--font-instrument-serif), serif;
+}
+
+/* ─── CSS Variables ──────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg:       #f8f7f4;
+  --surface:  #ffffff;
+  --border:   #e4e2dd;
+  --text:     #1a1917;
+  --muted:    #7a776e;
+  --tag-bg:   #eeecea;
+  --tag-text: #4a4844;
+  --nav-w:    220px;
+  --ease:     cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  --bg:       #131211;
+  --surface:  #1c1b19;
+  --border:   #2d2b27;
+  --text:     #e8e5df;
+  --muted:    #7a776e;
+  --tag-bg:   #242320;
+  --tag-text: #a8a49d;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base Reset ─────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.25s, color 0.25s;
+}
+
+/* ─── Sidebar (transition too complex for Tailwind) ──────────── */
+.sidebar-nav {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--nav-w);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  transform: translateX(-100%);
+  transition: transform 0.32s var(--ease), background 0.25s, border-color 0.25s;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  padding-top: 72px;
+}
+
+.sidebar-nav.open {
+  transform: translateX(0);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Page shift on nav open */
+.page-shift {
+  transition: margin-left 0.32s var(--ease), padding-left 0.32s var(--ease);
+}
+
+@media (min-width: 641px) {
+  .page-shift.nav-open {
+    margin-left: var(--nav-w);
+  }
+}
+
+/* ─── Accordion (grid-row collapse) ─────────────────────────── */
+.accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s var(--ease);
+}
+
+.accordion-body.open {
+  grid-template-rows: 1fr;
+}
+
+.accordion-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ─── Carousel Track ─────────────────────────────────────────── */
+.carousel-track {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.42s var(--ease);
+  will-change: transform;
+}
+
+/* ─── Switch Thumb ───────────────────────────────────────────── */
+.switch-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 12px;
+  height: 12px;
+  background: var(--surface);
+  border-radius: 50%;
+  transition: transform 0.22s var(--ease), background 0.22s;
+  pointer-events: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.dark .switch-thumb {
+  transform: translateX(16px);
+  background: var(--text);
+}
+
+/* ─── Hamburger Lines ────────────────────────────────────────── */
+.hamburger-line {
+  width: 15px;
+  height: 1.5px;
+  background: var(--muted);
+  border-radius: 1px;
+  transition: transform 0.22s var(--ease), opacity 0.22s, width 0.22s;
+  transform-origin: center;
+}
+
+.hamburger.open .hamburger-line:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+.hamburger.open .hamburger-line:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+.hamburger.open .hamburger-line:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* ─── Animations ─────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.5s ease both;
+}
+
+.animate-fade-up-fast {
+  animation: fadeUp 0.35s ease both;
+}
+
+/* ─── Lang select (custom arrow) ─────────────────────────────── */
+.lang-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5' viewBox='0 0 8 5'%3E%3Cpath d='M1 1l3 3 3-3' stroke='%237a776e' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 7px center;
+  background-color: transparent;
+  outline: none;
+}
+
+.dark .lang-select {
+  color-scheme: dark;
 }
