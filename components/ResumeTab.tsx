@@ -8,9 +8,9 @@ import styles from './ResumeTab.module.css';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 export interface ExperienceEntry {
-    title: string;
-    date: string;
-    company: string;
+    title: Translations;
+    date: Translations;
+    company: Translations;
     location: Translations;
     bullets: Translations[];
 }
@@ -22,8 +22,8 @@ export interface SkillGroup {
 
 export interface EducationEntry {
     degree: Translations;
-    institution: string;
-    date: string;
+    institution: Translations;
+    date: Translations;
 }
 
 interface Props {
@@ -39,10 +39,10 @@ function ExperienceSection({ entries }: { entries: ExperienceEntry[] }) {
             {entries.map((e, i) => (
                 <div key={i} className={styles.entry}>
                     <div className={styles.entryHeader}>
-                        <span className={styles.entryTitle}>{e.title}</span>
-                        <span className={styles.entryDate}>{e.date}</span>
+                        <span className={styles.entryTitle}>{t(e.title)}</span>
+                        <span className={styles.entryDate}>{t(e.date)}</span>
                     </div>
-                    <div className={styles.entrySub}>{e.company}&nbsp;·&nbsp;{t(e.location)}</div>
+                    <div className={styles.entrySub}>{t(e.company)}&nbsp;·&nbsp;{t(e.location)}</div>
                     <ul className={styles.entryList}>
                         {e.bullets.map((b, j) => <li key={j}>{t(b)}</li>)}
                     </ul>
@@ -75,8 +75,8 @@ function EducationSection({ entries }: { entries: EducationEntry[] }) {
             {entries.map((e, i) => (
                 <div key={i} className={styles.eduEntry}>
                     <div className={styles.eduTitle}>{t(e.degree)}</div>
-                    <div className={styles.eduSub}>{e.institution}</div>
-                    <div className={styles.eduDate}>{e.date}</div>
+                    <div className={styles.eduSub}>{t(e.institution)}</div>
+                    <div className={styles.eduDate}>{t(e.date)}</div>
                 </div>
             ))}
         </div>

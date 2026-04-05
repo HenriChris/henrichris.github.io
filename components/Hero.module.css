@@ -1,7 +1,6 @@
 .hero {
     padding-bottom: 32px;
     margin-bottom: 48px;
-    border-bottom: 1px solid var(--border);
     animation: fadeUp 0.5s ease both;
 }
 

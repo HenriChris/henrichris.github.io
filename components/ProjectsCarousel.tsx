@@ -7,8 +7,8 @@ import styles from './ProjectsCarousel.module.css';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 export interface Project {
-    title: string;
-    meta: string;
+    title: Translations;
+    meta: Translations;
     description: Translations;
     href: string;
     thumbSvg?: React.ReactNode;
@@ -47,15 +47,16 @@ export default function ProjectsCarousel({ projects }: Props) {
     const [cardWidth, setCardWidth] = useState(0);
     const GAP = 20;
 
-    const perView = () => (typeof window !== 'undefined' && window.innerWidth <= 600 ? 1 : 2);
-    const maxIdx = Math.max(0, projects.length - perView());
+    const [pv, setPv] = useState(2);
+    const maxIdx = Math.max(0, projects.length - pv);
 
     const measure = useCallback(() => {
         if (!viewportRef.current) return;
-        const pv = perView();
+        const currentPv = window.innerWidth <= 600 ? 1 : 2;
+        setPv(currentPv);
         const vw = viewportRef.current.offsetWidth;
-        setCardWidth((vw - GAP * (pv - 1)) / pv);
-        setIdx((prev: number) => Math.min(prev, Math.max(0, projects.length - pv)));
+        setCardWidth((vw - GAP * (currentPv - 1)) / currentPv);
+        setIdx((prev: number) => Math.min(prev, Math.max(0, projects.length - currentPv)));
     }, [projects.length]);
 
     useEffect(() => {
@@ -89,8 +90,8 @@ export default function ProjectsCarousel({ projects }: Props) {
                                 {project.thumbSvg ?? DefaultThumbs[i % DefaultThumbs.length]}
                             </div>
                             <div className={styles.cardBody}>
-                                <div className={styles.cardTitle}>{project.title}</div>
-                                <div className={styles.cardMeta}>{project.meta}</div>
+                                <div className={styles.cardTitle}>{t(project.title)}</div>
+                                <div className={styles.cardMeta}>{t(project.meta)}</div>
                                 <div className={styles.cardDesc}>{t(project.description)}</div>
                             </div>
                         </a>

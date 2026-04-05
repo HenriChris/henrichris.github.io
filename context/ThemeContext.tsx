@@ -13,7 +13,9 @@ interface ThemeContextValue {
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setThemeState] = useState<Theme>('light');
+    // Start as 'dark' to match the default class on <html> set by layout.tsx.
+    // The blocking script + useEffect will correct this to the user's preference.
+    const [theme, setThemeState] = useState<Theme>('dark');
 
     useEffect(() => {
         const saved = localStorage.getItem('theme') as Theme | null;

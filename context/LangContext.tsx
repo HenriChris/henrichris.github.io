@@ -11,7 +11,7 @@
 
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 // ─── Language registry ───────────────────────────────────────────────────────
 // Add new languages here. The key becomes the LangCode used everywhere.
@@ -38,7 +38,17 @@ interface LangContextValue {
 const LangContext = createContext<LangContextValue | null>(null);
 
 export function LangProvider({ children }: { children: React.ReactNode }) {
-    const [lang, setLang] = useState<LangCode>('en');
+    const [lang, setLangState] = useState<LangCode>('en');
+
+    useEffect(() => {
+        const saved = localStorage.getItem('lang') as LangCode | null;
+        if (saved && saved in LANGUAGES) setLangState(saved);
+    }, []);
+
+    function setLang(l: LangCode) {
+        setLangState(l);
+        localStorage.setItem('lang', l);
+    }
 
     const availableLanguages = (Object.keys(LANGUAGES) as LangCode[]).map(
         (code) => ({ code, label: LANGUAGES[code] })

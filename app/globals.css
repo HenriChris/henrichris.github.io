@@ -68,16 +68,7 @@ body {
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.06);
 }
 
-/* ─── Page shift on nav open ─────────────────────────────────────────────── */
-.page-shift {
-  transition: margin-left 0.32s var(--ease);
-}
 
-@media (min-width: 641px) {
-  .page-shift.nav-open {
-    margin-left: var(--nav-w);
-  }
-}
 
 /* ─── Accordion grid-row collapse ────────────────────────────────────────── */
 .accordion-body {
