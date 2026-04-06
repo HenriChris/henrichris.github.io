@@ -31,7 +31,6 @@ export default function Home() {
         <Hero
           name={{ en: 'Henrique Chrispim', pt: 'Henrique Chrispim' }}
           email="henrique.chrispim@protonmail.com"
-          phone="+55 021 99883 5410"
           github={{ label: 'github.com/HenriChris', href: 'https://github.com/HenriChris' }}
           linkedin={{ label: 'linkedin.com/in/henrichris', href: 'https://linkedin.com/in/henrichris' }}
           location={{ en: 'Rio de Janeiro, Brazil', pt: 'Rio de Janeiro, Brasil' }}
